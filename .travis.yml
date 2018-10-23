@@ -1,0 +1,44 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t benlamm/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run benlamm/react-test npm run test -- --coverage
+
+
+after_success:
+  - docker build -t benlamm/multi-client ./client
+  - docker build -t benlamm/multi-nginx ./nginx
+  - docker build -t benlamm/multi-server ./server
+  - docker build -t benlamm/multi-worker ./worker
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # push built images to docker hub
+  - docker push benlamm/multi-client
+  - docker push benlamm/multi-nginx
+  - docker push benlamm/multi-server
+  - docker push benlamm/multi-worker
+
+
+
+
+
+
+
+
+
+# deploy:
+#   provider: elasticbeanstalk
+#   region: "us-east-1"
+#   app: "docker-react"
+#   env: "DockerReact-env"
+#   bucket_name: "elasticbeanstalk-us-east-1-880583220638"
+#   path: "docker-react"
+#   on:
+#     branch: master
+#   access_key_id: $AWS_ACCESS_KEY
+#   secret_access_key:
+#     secure: "$AWS_SECRET_KEY"
