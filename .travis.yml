@@ -15,7 +15,7 @@ after_success:
   - docker build -t benlamm/multi-server ./server
   - docker build -t benlamm/multi-worker ./worker
   # Log in to the docker CLI
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   # push built images to docker hub
   - docker push benlamm/multi-client
   - docker push benlamm/multi-nginx
