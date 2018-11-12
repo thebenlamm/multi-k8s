@@ -1,8 +1,7 @@
 #! /bin/bash
-
-docker build -t benlamm/multi-client:latest benlamm/multi-client:$SHA -f ./client/Dockerfile ./client
-docker build -t benlamm/multi-server:latest benlamm/multi-server:$SHA -f ./server/Dockerfile ./server
-docker build -t benlamm/multi-worker:latest benlamm/multi-worker:$SHA -f ./worker/Dockerfile ./worker
+docker build -t benlamm/multi-client:latest -t benlamm/multi-client:$SHA -f ./client/Dockerfile ./client
+docker build -t benlamm/multi-server:latest -t benlamm/multi-server:$SHA -f ./server/Dockerfile ./server
+docker build -t benlamm/multi-worker:latest -t benlamm/multi-worker:$SHA -f ./worker/Dockerfile ./worker
 
 docker push benlamm/multi-client:latest
 docker push benlamm/multi-server:latest
